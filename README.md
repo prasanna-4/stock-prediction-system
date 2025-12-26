@@ -14,12 +14,12 @@ A full-stack machine learning application that analyzes and predicts stock price
 ## 🌟 Key Features
 
 ### 📊 **Comprehensive Stock Coverage**
-- **S&P 500** - All 500 large-cap stocks
-- **NASDAQ-100** - Top 100 tech and growth stocks
+- **S&P 500** - Large-cap stocks
+- **NASDAQ-100** - Tech and growth stocks
 - **Dow Jones 30** - Blue-chip industrial stocks
-- **Russell 2000 Sample** - 200+ small-cap stocks
+- **Russell 2000** - Small-cap stocks
 - **Popular ETFs** - SPY, QQQ, sector ETFs, and more
-- **Total Universe:** 800+ symbols
+- **Total Coverage:** 339+ stocks and ETFs
 
 ### 🤖 **Multi-Timeframe ML Predictions**
 Three distinct trading strategies with separate models:
@@ -342,25 +342,6 @@ In the Trading Signals dashboard, use the Auto-Refresh toggle to enable automati
 - 60 seconds (default)
 - 2 minutes
 - 5 minutes
-
----
-
-## ⚠️ Important Notes
-
-### Disclaimers
-
-- **This is NOT financial advice**
-- Predictions are for educational and informational purposes only
-- Past performance does not guarantee future results
-- Always do your own research before making investment decisions
-- Consult with a qualified financial advisor
-
-### Known Limitations
-
-- Market predictions are probabilistic and not guaranteed
-- Model accuracy varies by market conditions
-- Weekend and holiday data is not real-time
-- Free data sources have rate limits
 
 ---
 

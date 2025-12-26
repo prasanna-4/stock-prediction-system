@@ -1,0 +1,55 @@
+# Stock Prediction System - Python 3.13 Compatible
+
+# Core
+python-dotenv
+fastapi
+uvicorn[standard]
+pydantic
+pydantic-settings
+
+# Database
+sqlalchemy
+psycopg2-binary
+alembic
+
+# Data
+yfinance
+requests
+websockets
+pandas
+numpy
+scipy
+lxml
+
+# ML
+scikit-learn
+xgboost
+lightgbm
+
+# Indicators
+ta
+
+# Visualization
+plotly
+matplotlib
+seaborn
+
+# API
+httpx
+python-multipart
+
+# Testing
+pytest
+
+# Utilities
+python-dateutil
+pytz
+tqdm
+joblib
+
+# Excel
+openpyxl
+xlsxwriter
+
+# Config
+pyyaml

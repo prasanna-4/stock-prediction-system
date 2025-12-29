@@ -134,28 +134,14 @@ DATABASE_URL=postgresql://postgres:password@localhost:5432/stock_predictions
 
 #### Initialize Database
 
-The database initializes automatically when you start the backend.
+The database and stock data **initialize automatically** when you start the backend for the first time. The system will:
+- ✅ Create database tables
+- ✅ Populate 339+ stock symbols automatically
+- ✅ Set up background tasks for daily updates
 
-### 3. Populate Stock Data
+**No manual data population required!**
 
-```bash
-# Step 1: Populate stock universe
-python -m scripts.populate_stocks
-
-# Step 2: Fetch historical price data (takes 10-20 minutes)
-python -m scripts.fetch_data
-
-# Step 3: Update stock information (sector, market cap)
-python -m scripts.update_stock_info
-
-# Step 4: Train ML models (takes 5-10 minutes)
-python -m scripts.train_models
-
-# Step 5: Generate predictions
-python -m scripts.generate_predictions
-```
-
-### 4. Frontend Setup
+### 3. Frontend Setup
 
 ```bash
 cd frontend
@@ -226,21 +212,22 @@ Click any stock symbol to see:
 
 ---
 
-## 🔄 Daily Updates
+## 🔄 Automatic Daily Updates
 
-Run this script daily to keep predictions fresh:
+The system includes **built-in background tasks** that automatically:
+- 📊 Refresh stock prices daily at 6:00 PM ET (after market close)
+- 🔄 Update predictions with latest data
+- 📧 Send email alerts for high-confidence signals (if configured)
+
+**No manual intervention required!** Updates run automatically while the backend is running.
+
+### Manual Update (Optional)
+
+If you want to trigger an update manually:
 
 ```bash
 python -m scripts.daily_update
 ```
-
-This will:
-1. Fetch latest real-time prices
-2. Delete old predictions
-3. Generate new predictions with updated data
-4. Send email alerts (if configured)
-
-**Tip:** Set up a cron job (Linux/Mac) or Task Scheduler (Windows) to run this automatically.
 
 ---
 

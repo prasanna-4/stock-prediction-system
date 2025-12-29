@@ -14,6 +14,8 @@ import sys
 from backend.config.settings import settings
 from backend.database.config import init_db
 from backend.api import predictions, stocks, performance, health
+from backend.services.auto_init import check_and_initialize_database
+from backend.services.background_tasks import background_manager
 
 # Configure logging
 logging.basicConfig(
@@ -38,16 +40,18 @@ async def lifespan(app: FastAPI):
     logger.info("📊 Initializing database...")
     init_db()
     logger.info("✅ Database initialized")
-    
-    # TODO: Initialize Redis connection
-    # TODO: Load ML models
-    # TODO: Start background tasks for data fetching
-    
+
+    # Auto-populate database if empty
+    check_and_initialize_database()
+
+    # Start background tasks for automatic updates
+    await background_manager.start()
+
     yield
-    
+
     # Shutdown
     logger.info("👋 Shutting down application...")
-    # TODO: Cleanup tasks
+    await background_manager.stop()
 
 
 # Create FastAPI app

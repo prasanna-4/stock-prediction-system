@@ -132,14 +132,23 @@ DATABASE_URL=postgresql://postgres:password@localhost:5432/stock_predictions
 2. Go to https://myaccount.google.com/apppasswords
 3. Generate app password and use it in `.env`
 
-#### Initialize Database
+#### Initialize System with REAL ML Predictions
 
-The database and stock data **initialize automatically** when you start the backend for the first time. The system will:
-- ✅ Create database tables
-- ✅ Populate 339+ stock symbols automatically
-- ✅ Set up background tasks for daily updates
+**IMPORTANT:** To get real machine learning predictions, run this ONE-TIME setup:
 
-**No manual data population required!**
+```bash
+# One-time initialization (takes 25-30 minutes)
+python -m backend.services.full_initialization
+```
+
+This will:
+1. ✅ Download 2 years of historical data for 339+ stocks (10-15 mins)
+2. ✅ Train real XGBoost + LightGBM models (5-10 mins)
+3. ✅ Generate genuine ML predictions with 50+ technical indicators (5-10 mins)
+
+**After this runs once, you have a fully functional ML prediction system!**
+
+The backend will then auto-initialize on future startups with the trained models.
 
 ### 3. Frontend Setup
 

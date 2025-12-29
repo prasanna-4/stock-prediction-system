@@ -7,6 +7,7 @@ from sqlalchemy.orm import Session
 from backend.database.config import get_db
 from backend.database.models import Stock, Prediction
 from backend.data.stock_universe import StockUniverse
+from backend.services.quick_predictions import generate_quick_predictions
 
 logger = logging.getLogger(__name__)
 
@@ -32,18 +33,20 @@ def check_and_initialize_database():
             universe.populate_database(db, symbols)
 
             logger.info(f"Successfully populated {len(symbols)} stocks")
-            logger.info("Stock data and predictions will be generated on demand")
-            logger.info("For full historical data, run: python -m scripts.fetch_data")
 
+        # Always check and generate predictions if needed
+        prediction_count = db.query(Prediction).count()
+
+        if prediction_count == 0:
+            logger.info("No predictions found - generating now...")
+            db.close()  # Close before calling generate function
+            generate_quick_predictions()
+            # Reopen to check
+            db = next(get_db())
+            new_count = db.query(Prediction).count()
+            logger.info(f"Successfully generated {new_count} predictions")
         else:
-            logger.info(f"Database already contains {stock_count} stocks")
-
-            # Check predictions
-            prediction_count = db.query(Prediction).count()
-            if prediction_count == 0:
-                logger.info("No predictions found - they will be generated on demand")
-            else:
-                logger.info(f"Database contains {prediction_count} predictions")
+            logger.info(f"Database already contains {stock_count} stocks and {prediction_count} predictions")
 
     except Exception as e:
         logger.error(f"Error during database initialization: {e}")

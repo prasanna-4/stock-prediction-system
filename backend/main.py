@@ -36,10 +36,10 @@ async def lifespan(app: FastAPI):
     Startup and shutdown events
     """
     # Startup
-    logger.info(f"🚀 Starting {settings.APP_NAME} v{settings.APP_VERSION}")
-    logger.info("📊 Initializing database...")
+    logger.info(f"Starting {settings.APP_NAME} v{settings.APP_VERSION}")
+    logger.info("Initializing database...")
     init_db()
-    logger.info("✅ Database initialized")
+    logger.info("Database initialized successfully")
 
     # Auto-populate database if empty
     check_and_initialize_database()
@@ -50,7 +50,7 @@ async def lifespan(app: FastAPI):
     yield
 
     # Shutdown
-    logger.info("👋 Shutting down application...")
+    logger.info("Shutting down application...")
     await background_manager.stop()
 
 

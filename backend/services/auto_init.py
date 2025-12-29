@@ -23,30 +23,30 @@ def check_and_initialize_database():
         stock_count = db.query(Stock).count()
 
         if stock_count == 0:
-            logger.info("📦 Database is empty - running first-time initialization...")
-            logger.info("📊 Populating stock universe (339+ stocks)...")
+            logger.info("Database is empty - running first-time initialization...")
+            logger.info("Populating stock universe (339+ stocks)...")
 
             # Populate stocks
             universe = StockUniverse()
             symbols = universe.get_full_universe()
             universe.populate_database(db, symbols)
 
-            logger.info(f"✅ Successfully populated {len(symbols)} stocks")
-            logger.info("ℹ️  Stock data and predictions will be generated on demand")
-            logger.info("ℹ️  For full historical data, run: python -m scripts.fetch_data")
+            logger.info(f"Successfully populated {len(symbols)} stocks")
+            logger.info("Stock data and predictions will be generated on demand")
+            logger.info("For full historical data, run: python -m scripts.fetch_data")
 
         else:
-            logger.info(f"✅ Database already contains {stock_count} stocks")
+            logger.info(f"Database already contains {stock_count} stocks")
 
             # Check predictions
             prediction_count = db.query(Prediction).count()
             if prediction_count == 0:
-                logger.info("ℹ️  No predictions found - they will be generated on demand")
+                logger.info("No predictions found - they will be generated on demand")
             else:
-                logger.info(f"✅ Database contains {prediction_count} predictions")
+                logger.info(f"Database contains {prediction_count} predictions")
 
     except Exception as e:
-        logger.error(f"❌ Error during database initialization: {e}")
+        logger.error(f"Error during database initialization: {e}")
         raise
     finally:
         db.close()

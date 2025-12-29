@@ -28,20 +28,20 @@ class BackgroundTaskManager:
             return
 
         self.running = True
-        logger.info("🔄 Starting background task manager...")
+        logger.info("Starting background task manager...")
 
         # Schedule daily update task
         daily_update_task = asyncio.create_task(self._daily_update_scheduler())
         self.tasks.append(daily_update_task)
 
-        logger.info("✅ Background tasks started")
+        logger.info("Background tasks started successfully")
 
     async def stop(self):
         """
         Stop all background tasks
         """
         self.running = False
-        logger.info("⏹️ Stopping background tasks...")
+        logger.info("Stopping background tasks...")
 
         for task in self.tasks:
             task.cancel()
@@ -51,7 +51,7 @@ class BackgroundTaskManager:
                 pass
 
         self.tasks.clear()
-        logger.info("✅ Background tasks stopped")
+        logger.info("Background tasks stopped successfully")
 
     async def _daily_update_scheduler(self):
         """
@@ -74,7 +74,7 @@ class BackgroundTaskManager:
 
                 wait_seconds = (next_run - now).total_seconds()
 
-                logger.info(f"📅 Next daily update scheduled for: {next_run.strftime('%Y-%m-%d %H:%M:%S')}")
+                logger.info(f"Next daily update scheduled for: {next_run.strftime('%Y-%m-%d %H:%M:%S')}")
 
                 # Wait until scheduled time
                 await asyncio.sleep(wait_seconds)
@@ -98,22 +98,22 @@ class BackgroundTaskManager:
         - Generate new predictions
         - Send email alerts (if configured)
         """
-        logger.info("🔄 Running daily update...")
+        logger.info("Running daily update...")
 
         try:
             # Import here to avoid circular dependencies
             from backend.services.market_data import MarketDataService
 
             # Refresh prices
-            logger.info("📊 Refreshing stock prices...")
+            logger.info("Refreshing stock prices...")
             market_service = MarketDataService()
             # Note: This would call the actual price refresh
             # await market_service.refresh_all_prices()
 
-            logger.info("✅ Daily update completed successfully")
+            logger.info("Daily update completed successfully")
 
         except Exception as e:
-            logger.error(f"❌ Error during daily update: {e}", exc_info=True)
+            logger.error(f"Error during daily update: {e}", exc_info=True)
 
 
 # Global instance

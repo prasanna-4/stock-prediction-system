@@ -17,6 +17,7 @@ from backend.database.models import Stock, PriceHistory, Prediction
 from backend.services.market_data import MarketDataService
 from backend.models.predictor import StockPredictor
 from backend.features.feature_engineer import FeatureEngineer
+from sqlalchemy import func
 import pandas as pd
 import numpy as np
 
@@ -57,6 +58,10 @@ def download_historical_data():
 
                 # Save to database
                 for _, row in df.iterrows():
+                    # Skip rows with NaN values (missing data)
+                    if pd.isna(row['open']) or pd.isna(row['high']) or pd.isna(row['low']) or pd.isna(row['close']):
+                        continue
+
                     # Check if record exists
                     existing = db.query(PriceHistory).filter(
                         PriceHistory.stock_id == stock.id,
@@ -71,12 +76,14 @@ def download_historical_data():
                             high=float(row['high']),
                             low=float(row['low']),
                             close=float(row['close']),
-                            volume=int(row['volume']) if 'volume' in row else 0
+                            volume=int(row['volume']) if 'volume' in row and not pd.isna(row['volume']) else 0
                         )
                         db.add(price_record)
 
-                # Update current price
-                stock.current_price = float(df['close'].iloc[-1])
+                # Update current price (skip if NaN)
+                latest_close = df['close'].iloc[-1]
+                if not pd.isna(latest_close):
+                    stock.current_price = float(latest_close)
 
                 db.commit()
                 successful += 1
@@ -114,7 +121,7 @@ def train_ml_models():
     try:
         # Get stocks with sufficient price history
         stocks_with_data = db.query(Stock).join(PriceHistory).group_by(Stock.id).having(
-            db.func.count(PriceHistory.id) >= 200
+            func.count(PriceHistory.id) >= 200
         ).all()
 
         logger.info(f"Found {len(stocks_with_data)} stocks with sufficient data for training")

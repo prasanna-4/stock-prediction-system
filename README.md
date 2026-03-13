@@ -11,6 +11,12 @@ A full-stack machine learning application that analyzes and predicts stock price
 
 ---
 
+## Demo
+
+![Demo](assets/ScreenRecording2026-03-12221200-ezgif.com-video-to-gif-converter.gif)
+
+---
+
 ## 🌟 Key Features
 
 ### 📊 **Comprehensive Stock Coverage**
